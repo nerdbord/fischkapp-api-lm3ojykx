@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
-    "server": "node dist/src/index.js"
+    "server": "node dist/index.js"
   },
   "dependencies": {
     "express": "^4.18.2",
