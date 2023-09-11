@@ -84,4 +84,37 @@ cardRoutes.post("/", async (req, res) => {
   }
 });
 
+cardRoutes.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const card = await Card.findById(id);
+
+    if (!card) {
+      return res.status(404).send("Card not found.");
+    }
+
+    const currTime: number = new Date().getTime();
+    const cardCreatedAt: number = card.createdAt.getTime();
+    const timeDiff: number = currTime - cardCreatedAt;
+
+    if (timeDiff >= parseMinutesToMilisec(5)) {
+      return res
+        .status(403)
+        .send(
+          "Cannot delete card after 5 minutes from the date of card creation",
+        );
+    }
+
+    await Card.findByIdAndRemove(id);
+    res.status(200).send("Flashcard was deleting successfully");
+  } catch (error) {
+    res.status(500).send("An error ocurred while deleting card");
+  }
+});
+
+const parseMinutesToMilisec = (minutes: number): number => {
+  return minutes * 60 * 1000;
+};
+
 export default cardRoutes;
