@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Card } from "../models/card";
 import { CreateCardPayload, UpdateCardPayload } from "../types/cardTypes";
+import { parseMinToMil } from "../utils/parseMinToMil";
 
 const cardRoutes = Router();
 
@@ -98,7 +99,7 @@ cardRoutes.delete("/:id", async (req, res) => {
     const cardCreatedAt: number = card.createdAt.getTime();
     const timeDiff: number = currTime - cardCreatedAt;
 
-    if (timeDiff >= parseMinutesToMilisec(5)) {
+    if (timeDiff >= parseMinToMil(5)) {
       return res
         .status(403)
         .send(
@@ -112,9 +113,5 @@ cardRoutes.delete("/:id", async (req, res) => {
     res.status(500).send("An error ocurred while deleting card");
   }
 });
-
-const parseMinutesToMilisec = (minutes: number): number => {
-  return minutes * 60 * 1000;
-};
 
 export default cardRoutes;

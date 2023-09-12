@@ -3,13 +3,14 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import "dotenv/config";
-import cardRoutes from "../routes/router"
+import { authMiddleware } from "../middlewares/authMiddleware";
+import cardRoutes from "../routes/router";
 
 const app: Express = express();
 const PORT = process.env.PORT || 4000;
 
 if (process.env.MONGODB_URL) {
-  mongoose.connect(process.env.MONGODB_URL,{dbName: "Flashcards"});
+  mongoose.connect(process.env.MONGODB_URL, { dbName: "Flashcards" });
 } else {
   console.log("Please pass the URL to database");
 }
@@ -23,10 +24,11 @@ const corsOptions = {
 };
 
 app.use(express.json());
-
 app.use(cors(corsOptions));
 
-app.use('/cards', cardRoutes);
+app.use("/cards", authMiddleware);
+app.use("/cards", cardRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Your app listening at http://localhost:${PORT}`);
