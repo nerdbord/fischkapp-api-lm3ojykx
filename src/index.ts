@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
 import "dotenv/config";
 import cardRoutes from "../routes/router"
@@ -17,7 +18,13 @@ const db = mongoose.connection;
 db.on("error", (error: string) => console.log(error));
 db.once("open", () => console.log("Connected to database"));
 
+const corsOptions = {
+  origin: process.env.ALLOWED_ORIGIN,
+};
+
 app.use(express.json());
+
+app.use(cors(corsOptions));
 
 app.use('/cards', cardRoutes);
 
