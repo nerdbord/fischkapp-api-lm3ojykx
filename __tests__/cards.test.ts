@@ -14,7 +14,14 @@ describe("cards", () => {
     await mongoose.connection.close();
   });
 
-  it("should return true", () => {
-    expect(true).toBe(true);
+  describe("get cards route", () => {
+    it("should return 404 when given card does not exist", async () => {
+      const cardId = "asd-123";
+
+      await supertest(app)
+        .get(`/cards/${cardId}`)
+        .set("Authorization", "pss-this-is-my-secret")
+        .expect(404);
+    });
   });
 });
