@@ -3,6 +3,7 @@ import mongoose, { Document } from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { app } from "../utils/server";
 import { Card, ICard } from "../models/card";
+import { CreateCardPayload } from "../types/cardTypes";
 
 describe("cards", () => {
   beforeAll(async () => {
@@ -96,6 +97,60 @@ describe("cards", () => {
         .set("Authorization", "pss-this-is-my-secret");
 
       expect(resp.body.length).toBe(2);
+    });
+  });
+
+  describe("post card route", () => {
+    afterEach(async () => {
+      await Card.deleteMany();
+    });
+
+    const newCard: CreateCardPayload = {
+      front: "Front 4",
+      back: "Back 4",
+      author: "Author2",
+      tags: ["tag4", "tag5"],
+    };
+
+    it("should return 201", async () => {
+      const resp = await request(app)
+        .post("/cards")
+        .set("Authorization", "pss-this-is-my-secret")
+        .send(newCard);
+
+      expect(resp.statusCode).toBe(201);
+    });
+
+    it("should create correct card", async () => {
+      const resp = await request(app)
+        .post("/cards")
+        .set("Authorization", "pss-this-is-my-secret")
+        .send(newCard);
+
+      expect(resp.body).toHaveProperty("front", "Front 4");
+      expect(resp.body).toHaveProperty("back", "Back 4");
+      expect(resp.body).toHaveProperty("author", "Author2");
+      expect(resp.body).toHaveProperty("tags", ["tag4", "tag5"]);
+    });
+
+    it("should return 400 when card with specific front value already exist", async () => {
+      const existingCard: CreateCardPayload = {
+        front: "Front 4",
+        back: "Back 4",
+        author: "Author2",
+        tags: ["tag4", "tag5"],
+      };
+      await request(app)
+        .post("/cards")
+        .set("Authorization", "pss-this-is-my-secret")
+        .send(newCard);
+
+      const resp = await request(app)
+        .post("/cards")
+        .set("Authorization", "pss-this-is-my-secret")
+        .send(existingCard);
+
+      expect(resp.statusCode).toBe(400);
     });
   });
 });
