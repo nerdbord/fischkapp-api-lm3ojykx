@@ -1,24 +1,32 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
- export const cardSchema = new mongoose.Schema({
-   front: {
-       type: String,
-       required: true,
-       unique: true  
-   },
-   back: {
-       type: String,
-       required: true
-   },
-   tags: [String],
-   author: {
-       type: String,
-       required: true
-   },
-   createdAt: { 
-       type: Date,
-       default: Date.now
-   }
-});
+export interface ICard extends mongoose.Document {
+  front: string;
+  back: string;
+  tags: string[];
+  author: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export const Card = mongoose.model('Card', cardSchema);
+export const cardSchema = new mongoose.Schema<ICard>(
+  {
+    front: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    back: {
+      type: String,
+      required: true,
+    },
+    tags: [String],
+    author: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true },
+);
+
+export const Card = mongoose.model("Card", cardSchema);
