@@ -153,4 +153,71 @@ describe("cards", () => {
       expect(resp.statusCode).toBe(400);
     });
   });
+
+  describe("put card into db", () => {
+
+    const testCard:CreateCardPayload =
+      {
+        front: "Front 1",
+        back: "Back 1",
+        author: "Author1",
+        tags: ["tag1", "tag2"]
+      }
+    ;
+
+    const testCardUpdate: CreateCardPayload = {
+      front: "Updated Front",
+      back: "Updated Back",
+      author: "Updated Author",
+      tags: ["Updated"]
+    };
+
+    let createdCardId: string;
+
+    beforeAll(async () => {
+      const createCardResponse = await request(app)
+        .post("/cards")
+        .set("Authorization", "pss-this-is-my-secret")
+        .send(testCard);
+
+      createdCardId = createCardResponse.body._id;
+    });
+
+    it("should give 200 when card is updated", async () => {
+      const resp = await request(app)
+      .put(`/cards/${createdCardId}`)
+      .set("Authorization", "pss-this-is-my-secret")
+      .send(testCardUpdate);
+
+    expect(resp.status).toBe(200);
+    });
+
+    it('should update the card with given data', async () => {
+
+      const resp = await request(app)
+        .put(`/cards/${createdCardId}`)
+        .set("Authorization", "pss-this-is-my-secret")
+        .send(testCardUpdate);
+
+      const updatedCard = await Card.findById(createdCardId);
+
+      expect(updatedCard).not.toBeNull();
+      expect(updatedCard!.front).toBe(testCardUpdate.front);
+      expect(updatedCard!.back).toBe(testCardUpdate.back);
+      expect(updatedCard!.tags).toEqual(expect.arrayContaining(testCardUpdate.tags));
+    });
+
+    it('should return the updated flashcard', async () => {
+
+      const resp = await request(app)
+        .put(`/cards/${createdCardId}`)
+        .set("Authorization", "pss-this-is-my-secret")
+        .send(testCardUpdate);
+
+      expect(resp.body.front).toBe(testCardUpdate.front);
+      expect(resp.body.back).toBe(testCardUpdate.back);
+      expect(resp.body.tags).toEqual(expect.arrayContaining(testCardUpdate.tags));
+    });
+
+  });
 });
