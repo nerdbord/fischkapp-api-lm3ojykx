@@ -9,7 +9,7 @@ const options = {
       description: 'API for Fischkapp flashcards',
     },
   },
-  apis: ['./server.ts'], 
+  apis: ['./routes/*.ts', './models/*.ts'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
