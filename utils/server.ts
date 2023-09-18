@@ -4,7 +4,7 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 import cardRoutes from "../routes/router";
 import "dotenv/config";
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './swagger'
+import * as swaggerDocument from '../swaggerDocs.json';
 
 export const app: Express = express();
 
@@ -16,4 +16,4 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/cards", authMiddleware);
 app.use("/cards", cardRoutes);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
