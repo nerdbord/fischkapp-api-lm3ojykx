@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { app } from "../utils/server";
 import "dotenv/config";
 
+
 const PORT = process.env.PORT || 4000;
 
 if (process.env.MONGODB_URL) {
