@@ -10,14 +10,17 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "server": "nodemon dist/src/index.js",
-    "test": "jest"
+    "test": "jest",
+    "generate-swagger": "ts-node ./swagger.ts"
   },
   "dependencies": {
+    "@meanie/mongoose-to-json": "^2.6.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongodb": "^6.0.0",
     "mongoose": "^7.5.0",
     "nodemon": "^3.0.1",
+    "swagger-autogen": "^2.23.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
