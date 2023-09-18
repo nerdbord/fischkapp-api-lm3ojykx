@@ -96,6 +96,7 @@ cardRoutes.delete("/:id", async (req, res) => {
     }
 
     const currTime: number = new Date().getTime();
+    
     const cardCreatedAt: number = card.createdAt.getTime();
     const timeDiff: number = currTime - cardCreatedAt;
 
@@ -108,7 +109,7 @@ cardRoutes.delete("/:id", async (req, res) => {
     }
 
     await Card.findByIdAndRemove(id);
-    res.status(200).send("Flashcard was deleting successfully");
+    res.status(204).send("Flashcard was deleting successfully");
   } catch (error) {
     res.status(500).send("An error ocurred while deleting card");
   }
