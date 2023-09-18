@@ -9,8 +9,7 @@ const options = {
       description: 'API for Fischkapp flashcards',
     },
   },
-  // Paths to API docs and routes
-  apis: ['**/*.ts'], 
+  apis: ['./server.ts'], 
 };
 
 const swaggerSpec = swaggerJSDoc(options);
