@@ -262,21 +262,19 @@ describe("cards", () => {
     });
 
     it("returns a status code of 403 if the flashcard was created more than 5 minutes ago.", async () => {
-      const fiveMinutesAgoTimestamp = Date.now() - (6 * 60 * 1000);
+      const fiveMinutesAgoTimestamp = new Date( Date.now() - (6 * 60 * 1000));
 
-      const testCard2 = {
-        ...testCard,
-        createdAt: { type: Date, default: fiveMinutesAgoTimestamp },
-      };
+      const testCard: ICard = new Card({
+        front: "Front 1",
+        back: "Back 1",
+        author: "Author1",
+        tags: ["tag1", "tag2"],
+      });
+      
+      testCard.createdAt = fiveMinutesAgoTimestamp;
+      testCard.save();
 
-      const createCardResponse1 = await request(app)
-        .post("/cards")
-        .set("Authorization", "pss-this-is-my-secret")
-        .send(testCard2);
-
-      const createdCardId1 = createCardResponse1.body._id;
-
-      expect(createCardResponse1.status).toBe(201);
+      const createdCardId1 = testCard._id;
 
       const response = await request(app)
         .delete(`/cards/${createdCardId1}`)
@@ -294,3 +292,4 @@ describe("cards", () => {
     });
   });
 });
+
