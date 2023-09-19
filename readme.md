@@ -4,7 +4,11 @@
 
 This project is an API for the Fischkapp.
 
----
+### 🔴 Live
+
+### API [link](https://flashcards-icr5.onrender.com/cards)
+
+### API [docs](https://flashcards-icr5.onrender.com/docs)
 
 ### 📝 Project requirements
 
@@ -20,4 +24,4 @@ Express.js + Typescript, MongoDB, Mongoose
 
 ### 📖 How to start this service
 
-1. Run ``yarn server``
+1. Run `yarn server`
