@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { app } from "../utils/server";
 import "dotenv/config";
 
-
 const PORT = process.env.PORT || 4000;
 
 if (process.env.MONGODB_URL) {
@@ -17,4 +16,5 @@ db.once("open", () => console.log("Connected to database"));
 
 app.listen(PORT, () => {
   console.log(`Your app listening at http://localhost:${PORT}`);
+  console.log(`Docs available at http://localhost:${PORT}/docs`);
 });
