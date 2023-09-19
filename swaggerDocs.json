@@ -5,9 +5,9 @@
     "title": "FischkApp-API",
     "description": "API for getting flashcards"
   },
-  "host": "localhost:4000",
+  "host": "flashcards-icr5.onrender.com",
   "basePath": "/cards/",
-  "schemes": ["http"],
+  "schemes": ["https"],
   "securityDefinitions": {
     "api_key": {
       "type": "apiKey",
