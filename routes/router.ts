@@ -108,7 +108,7 @@ cardRoutes.delete("/:id", async (req, res) => {
     }
 
     await Card.findByIdAndRemove(id);
-    res.status(200).send("Flashcard was deleting successfully");
+    res.status(200).send("Flashcard was deleted successfully");
   } catch (error) {
     res.status(500).send("An error ocurred while deleting card");
   }
